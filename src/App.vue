@@ -15,12 +15,14 @@
     :lists="lists"
     v-if="!isFormShow"
   />
+
 </template>
 
 <script>
 import Table from "./components/Table.vue";
 import AddListBtn from "./components/AddListBtn.vue";
 import Form from "./components/Form.vue";
+import { store } from '../src/store.js';
 
 export default {
   name: "App",
@@ -32,23 +34,33 @@ export default {
     Form,
   },
   data() {
-    return { lists: [], isFormShow: false, editObj:{}, objIndex : String };
+    return { lists:[], isFormShow: false, editObj:{}, objIndex : String };
   },
   methods: {
+
     addList(obj) {
-      //add new data
-      this.lists = [...this.lists, obj];
-      //close form
+
+        // this.lists = [...this.lists, obj];
+
+        // store
+        store.addList(obj);
+        // 只寫在data沒有用
+        this.lists = store.state.lists;
+        console.log(this.lists);
+
+      // close form
       this.toggleForm();
     },
     deleteList(index) {
       var answer = confirm("確定刪除？");
+
       if (answer) {
 
-        this.lists = this.lists.filter((e,i) => {
-          return i != index;
-        });
- 
+        // store
+        store.deleteList(index);
+        this.lists = store.state.lists;
+
+
         // id will be wrong
         // this.lists = this.lists.filter((obj) => {
         //   return obj.id !== id;
@@ -76,10 +88,8 @@ export default {
 
     },updateList(obj){
     
-      //重寫陣列
-      this.lists[this.objIndex] = obj;
-     
-      
+     store.updateList(obj,this.objIndex);
+     this.lists = store.state.lists;
 
       //--------id will be wrong
       // this.lists.forEach((e) => {   
@@ -109,33 +119,36 @@ export default {
     },
   },
   created() {
-    this.lists = [
-      {
-        id: 24,
-        name: "Buy Grocery",
-        status: "Todo",
-      },
-      {
-        id: 25,
-        name: "Send Email",
-        status: "In Progress",
-      },
-      {
-        id: 28,
-        name: "Finish Assignment",
-        status: "Complete",
-      },
-      {
-        id: 30,
-        name: "Bake Cake",
-        status: "Todo",
-      },
-      {
-        id: 31,
-        name: "Write Blog Post",
-        status: "In Progress",
-      },
-    ];
+
+    // this.lists = [
+    //   {
+    //     id: 24,
+    //     name: "Buy Grocery",
+    //     status: "Todo",
+    //   },
+    //   {
+    //     id: 25,
+    //     name: "Send Email",
+    //     status: "In Progress",
+    //   },
+    //   {
+    //     id: 28,
+    //     name: "Finish Assignment",
+    //     status: "Complete",
+    //   },
+    //   {
+    //     id: 30,
+    //     name: "Bake Cake",
+    //     status: "Todo",
+    //   },
+    //   {
+    //     id: 31,
+    //     name: "Write Blog Post",
+    //     status: "In Progress",
+    //   },
+    // ];
+
+  this.lists = store.state.lists;    
   },
 };
 </script>

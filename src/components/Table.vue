@@ -11,7 +11,7 @@
 
       <!-- <tr v-for="list in lists" :key="list">-->
       <!-- index -->
-      <tr v-for="(list,index) in lists" :key="list">
+      <tr v-for="(list,index) in lists" :key="index">
         
   <!-- <td>{{list.id}}</td>
   <td>{{list.name}}</td>
