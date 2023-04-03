@@ -36,16 +36,29 @@ export default {
   props: {
     list: Object,
     index : String,
+  },data(){
+    return{ editObj:{}, objIndex : String }
   },
   methods: {
 
     onDelete(index) {
     // 創造自訂事件
     // this 指向 component instance
-    this.$emit('delete-event',index)
-    },
+    // this.$emit('delete-event',index)
+    var answer = confirm("確定刪除？");
+      if (answer) {
+
+      //vuex
+      this.$store.dispatch("deleteList",index);
+    }}
+  ,
     onEdit(index){
-    this.$emit('edit-event',index)
+
+
+    // -------- vuex ---------
+    this.$store.dispatch("editList",index);
+
+    this.$emit('open-form');
     }
 
     //----------- id will be wrong

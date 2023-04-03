@@ -11,15 +11,22 @@
 
       <!-- <tr v-for="list in lists" :key="list">-->
       <!-- index -->
-      <tr v-for="(list,index) in lists" :key="index">
-        
+      <!-- <tr v-for="(list,index) in lists" :key="index"> -->
+      
+      <!---- vuex --->
+      <tr v-for="(list,index) in $store.state.lists" :key="index">
+
+       
   <!-- <td>{{list.id}}</td>
   <td>{{list.name}}</td>
   <td>{{list.status}}</td>
   <td><button>編輯</button></td>
   <td><button>刪除</button></td> -->
    <!-- binding index 到 Row -->
-        <row @delete-event="$emit('delete-event', index)" @edit-event="$emit('edit-event',index)" :list="list" :index="index" />
+        <!-- <row @delete-event="$emit('delete-event', index)" @edit-event="$emit('edit-event',index)"  :list="list" :index="index"/> -->
+        <!------ vuex ------>
+        <row @open-form="$emit('open-form')"  :list="list" :index="index"/>
+
         <!-- id will be wrong -->
         <!-- <Row @delete-event="$emit('delete-event', list.id)" @edit-event="$emit('edit-event',list.id)" :list="list" :index="index" /> -->
       </tr>
@@ -32,14 +39,14 @@ import row from "./Row.vue";
 
 export default {
   name: "Table",
-  props: {
-    lists: Array,
-  },
+  // props: {
+  //   lists: Array,
+  // },
   components: {
     row,
   },
   // 自訂事件綁定，小心陣列逗點
-  emits: ["delete-event","edit-event"],
+  emits: ["open-form",],
 };
 </script>
 

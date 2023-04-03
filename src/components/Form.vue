@@ -27,11 +27,15 @@
 // 這個作業不適合用
 // import {EventBus} from '../EventBus.js' 
 
+//vuex
+import { mapActions } from 'vuex'
+
+
 export default {
   name: "Form",
-  props: {
-    editObj: Object,
-  },
+  // props: {
+  //   editObj: Object,
+  // },
   data() {
     return {
       // -------------created / computed-----------
@@ -94,18 +98,18 @@ export default {
       // }
 
       // ---------- If editObj dont have type edit is add function
-      if (!(this.editObj.type === "edit")) {
+      if (!(this.$store.state.editObj.type === "edit")) {
 
-        this.$emit("add-list", newlist);
+        // this.$emit("add-list", newlist);
+        //vuex
+        this.$store.dispatch("addList", newlist);
 
         // --------- EventBus (不適合用) -------------
         // EventBus.$emit("add-list", newlist);
       }
       // -----------else with it is update
       else {
-
-        this.$emit("update-list", newlist);
-
+        this.$store.dispatch("updateList", newlist);
         // --------- EventBus （不適合用） -------------
         // EventBus.$emit("update-list", newlist);
       }
@@ -132,17 +136,24 @@ export default {
     // }
   },
   // ------------------created------------------
-  created : function(){
-    if(this.editObj.type == "edit")
-    {
-      this.id = this.editObj.id;
-      this.name = this.editObj.name;
-      this.status = this.editObj.status;
-    }
-  },
+  created : 
+    function(){
+  //   if(this.editObj.type == "edit")
+  //   {
+  //     this.id = this.editObj.id;
+  //     this.name = this.editObj.name;
+  //     this.status = this.editObj.status;
 
-  // -------------------computed fail doesnt work..not yet solve------------------
-  // computed: {
+  //   }
+    // ------------ vuex ------------
+    if(this.$store.state.editObj.type == "edit")
+    {
+      this.id = this.$store.state.editObj.id;
+      this.name = this.$store.state.editObj.name;
+      this.status = this.$store.state.editObj.status;
+    }}
+  ,
+ 
   //   formValueId: {
   //     get(){
   //       // dosent work, not define(with method)

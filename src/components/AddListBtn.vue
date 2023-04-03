@@ -1,7 +1,11 @@
 <template>
   <div class="container box">
     <!-- <button @click="toggleForm">Add Task</button> -->
-    <button>Add Task</button>
+    <!-- <button >Add Task</button> -->
+
+    <!----------- vuex ------------>
+    <button @click="emptyEditObj">Add Task</button>
+
 
   </div>
 </template>
@@ -12,6 +16,10 @@ export default {
     // toggleForm(){
     //     this.$emit('toggleForm');
     // },
+    emptyEditObj(){
+      this.$store.dispatch("emptyEditObj");
+    }
+    
   }
 };
 </script>

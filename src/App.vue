@@ -1,6 +1,6 @@
 <template>
   <AddListBtn @click="openForm"/>
-  <Form
+  <!-- <Form
     @add-list="addList"
     v-if="isFormShow"
     @close-form="clsForm"
@@ -8,11 +8,16 @@
     @update-list="updateList"
     @empty-obj="emptyObj"
     @empty-index="emptyIndex"
+  /> -->
+  <!------------- vuex ------------>
+    <Form
+    v-if="isFormShow"
+    @close-form="clsForm"
+    @empty-obj="emptyObj"
+    @empty-index="emptyIndex"
   />
   <Table
-    @delete-event="deleteList"
-    @edit-event="editList"
-    :lists="lists"
+    @open-form="openForm"
     v-if="!isFormShow"
   />
 
@@ -22,7 +27,8 @@
 import Table from "./components/Table.vue";
 import AddListBtn from "./components/AddListBtn.vue";
 import Form from "./components/Form.vue";
-import { store } from '../src/store.js';
+import { mapState,mapActions,mapGetters } from 'vuex'
+
 
 export default {
   name: "App",
@@ -34,47 +40,48 @@ export default {
     Form,
   },
   data() {
-    return { lists:[], isFormShow: false, editObj:{}, objIndex : String };
+    return { isFormShow: false,};
   },
   methods: {
+    //  addList(obj) {
 
-    addList(obj) {
+    //     // this.lists = [...this.lists, obj];
 
-        // this.lists = [...this.lists, obj];
+    //     // store
+    //     // store.addList(obj);
 
-        // store
-        store.addList(obj);
-        // 只寫在data沒有用
-        this.lists = store.state.lists;
-        console.log(this.lists);
+    //     // 只寫在data沒有用
+    //     // this.lists = store.state.lists;
+    //     // console.log(this.lists);
 
-      // close form
-      this.toggleForm();
-    },
-    deleteList(index) {
-      var answer = confirm("確定刪除？");
+    //   // close form
+    //   this.toggleForm();
+    // },
+    // deleteList(index) {
 
-      if (answer) {
+    //   var answer = confirm("確定刪除？");
 
-        // store
-        store.deleteList(index);
-        this.lists = store.state.lists;
+    //   if (answer) {
+
+    //     // store
+    //     store.deleteList(index);
+    //     this.lists = store.state.lists;
 
 
-        // id will be wrong
-        // this.lists = this.lists.filter((obj) => {
-        //   return obj.id !== id;
-        // });
-      }
-    },
-    editList(index) {
+    //     // id will be wrong
+    //     // this.lists = this.lists.filter((obj) => {
+    //     //   return obj.id !== id;
+    //     // });
+    //   }
+    // },
+    // editList() {
 
       // declare objIndex for later update use
-      this.objIndex = index;
-      this.editObj = this.lists[index];
+      // this.objIndex = index;
+      // this.editObj = this.lists[index];
 
       //identify edit action 
-      this.editObj.type = "edit";
+      // this.editObj.type = "edit";
 
       // ---- user can edit id so this will be wrong--------------
       // let editObjArr = this.lists.filter((obj) => {
@@ -84,12 +91,11 @@ export default {
       // ----------------------------------------------------------
 
       //open form
-      this.toggleForm();
-
-    },updateList(obj){
-    
-     store.updateList(obj,this.objIndex);
-     this.lists = store.state.lists;
+      // this.toggleForm();
+    // },
+    // updateList(obj){
+    //  store.updateList(obj,this.objIndex);
+    //  this.lists = store.state.lists;
 
       //--------id will be wrong
       // this.lists.forEach((e) => {   
@@ -99,18 +105,19 @@ export default {
       //     e.status = obj.status;
       //   }
       // })
-      //-------------------------------
-
-    },emptyObj(){
-      //清空物件
-      this.editObj ={
-        id:"",
-        name:"",
-        status:"",
-      };
-    },emptyIndex(){
-      this.objIndex ="";
-    },toggleForm() {
+      //-------------------------------},
+    // emptyObj(){
+    //   //清空物件
+    //   this.editObj ={
+    //     id:"",
+    //     name:"",
+    //     status:"",
+    //   };
+    // },
+    // emptyIndex(){
+    //   this.objIndex ="";
+    // },
+    toggleForm() {
       this.isFormShow = !this.isFormShow;
     },openForm() {
       this.isFormShow = true;
@@ -148,8 +155,13 @@ export default {
     //   },
     // ];
 
-  this.lists = store.state.lists;    
+  
   },
+  computed:{
+    // 只要 lists 改變都會重新計算並觸發相關聯的DOM 
+    // ...mapState(['lists']),
+ 
+  }
 };
 </script>
 
